@@ -19,6 +19,10 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 from sklearn.tree import DecisionTreeClassifier
 
+import os
+for _d in ("data", "models", "reports"):
+    os.makedirs(_d, exist_ok=True)
+
 SEED = 42
 df = pd.read_csv("data/loan_data.csv")
 
@@ -50,7 +54,7 @@ candidates = {
         DecisionTreeClassifier(random_state=SEED, class_weight="balanced"),
         {"clf__max_depth": [3, 5, 7], "clf__min_samples_leaf": [5, 20]}),
     "Random Forest": (
-        RandomForestClassifier(random_state=SEED, class_weight="balanced", n_jobs=-1),
+        RandomForestClassifier(random_state=SEED, class_weight="balanced", n_jobs=1),
         {"clf__n_estimators": [200, 400], "clf__max_depth": [6, 10, None],
          "clf__min_samples_leaf": [2, 5]}),
 }
@@ -59,7 +63,7 @@ cv = StratifiedKFold(5, shuffle=True, random_state=SEED)
 results, fitted = {}, {}
 for name, (est, grid) in candidates.items():
     pipe = Pipeline([("pre", pre), ("clf", est)])
-    gs = GridSearchCV(pipe, grid, cv=cv, scoring="f1", n_jobs=-1).fit(X_tr, y_tr)
+    gs = GridSearchCV(pipe, grid, cv=cv, scoring="f1", n_jobs=1).fit(X_tr, y_tr)
     pred = gs.predict(X_te)
     proba = gs.predict_proba(X_te)[:, 1]
     results[name] = {
