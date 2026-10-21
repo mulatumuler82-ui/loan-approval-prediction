@@ -18,9 +18,16 @@ st.set_page_config(page_title="Loan Approval Predictor", page_icon="🏦", layou
 def get_model():
     # First run on a fresh deploy: train the model if it isn't in the repo.
     if not os.path.exists(MODEL_PATH):
+        steps = []
         if not os.path.exists("data/loan_data.csv"):
-            subprocess.run([sys.executable, "generate_data.py"], check=True)
-        subprocess.run([sys.executable, "train.py"], check=True)
+            steps.append("generate_data.py")
+        steps.append("train.py")
+        for script in steps:
+            r = subprocess.run([sys.executable, script], capture_output=True, text=True)
+            if r.returncode != 0:
+                st.error(f"{script} failed")
+                st.code((r.stderr or r.stdout)[-3000:])
+                st.stop()
     return load_model()
 
 
