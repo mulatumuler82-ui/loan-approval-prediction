@@ -6,6 +6,9 @@ Replace data/loan_data.csv with the real Kaggle "Loan Prediction" CSV
 import numpy as np
 import pandas as pd
 
+import os
+os.makedirs("data", exist_ok=True)
+
 rng = np.random.default_rng(42)
 N = 2000
 
