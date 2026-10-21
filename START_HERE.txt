@@ -1,0 +1,36 @@
+LOAN APPROVAL PREDICTION - SETUP (Windows)
+
+1. SAVE THE FOLDER
+   Unzip this file. Put the folder "loan-approval-prediction" somewhere simple, e.g.
+       C:\projects\loan-approval-prediction
+   (Avoid OneDrive if you can. It is a SEPARATE project from your portfolio website.)
+
+2. OPEN A TERMINAL IN THE FOLDER
+   Open PowerShell and run:
+       cd C:\projects\loan-approval-prediction
+
+3. INSTALL AND TRAIN
+       pip install -r requirements.txt
+       python generate_data.py
+       python train.py
+
+4. RUN THE APP
+       streamlit run app.py
+   Your browser opens at http://localhost:8501
+
+5. PUT IT ON GITHUB
+   Create an EMPTY repo named loan-approval-prediction on github.com, then:
+       git init
+       git add .
+       git commit -m "Loan Approval Prediction Model"
+       git branch -M main
+       git remote add origin https://github.com/YOUR-USERNAME/loan-approval-prediction.git
+       git push -u origin main
+
+6. DEPLOY THE LIVE APP (free)
+   Go to https://share.streamlit.io -> sign in with GitHub -> New app
+   Repo: loan-approval-prediction | Branch: main | Main file: app.py -> Deploy
+
+7. UPDATE YOUR PORTFOLIO
+   On the Loan Approval Prediction card: set "View on GitHub" to your new repo
+   and add a "Live Demo" link to your streamlit.app URL. Redeploy on Vercel.
